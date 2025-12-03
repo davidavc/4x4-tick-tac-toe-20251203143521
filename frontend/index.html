@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Tic-Tac-Toe 🎄</title>
+    <meta name="description" content="Play a festive 4x4 tic-tac-toe game against Santa's helpers with different difficulty levels!">
+    <meta name="keywords" content="tic-tac-toe, Christmas, game, 4x4, holiday, Santa">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎄</text></svg>">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Christmas Tic-Tac-Toe 🎄">
+    <meta property="og:description" content="Play a festive 4x4 tic-tac-toe game against Santa's helpers!">
+    <meta property="og:url" content="/">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Christmas Tic-Tac-Toe 🎄">
+    <meta property="twitter:description" content="Play a festive 4x4 tic-tac-toe game against Santa's helpers!">
+    
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#c41e3a">
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <style>
+        /* Loading screen styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f4c3a, #1a5f4a, #2d8659);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+        
+        .loading-content {
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .loading-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .loading-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .loading-spinner {
+            font-size: 4rem;
+            animation: spin 2s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Hide loading screen when app is ready */
+        .app-loaded #loading-screen {
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            pointer-events: none;
+        }
+        
+        /* Prevent flash of unstyled content */
+        #app {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+        
+        .app-loaded #app {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .loading-title {
+                font-size: 2.2rem;
+            }
+            
+            .loading-subtitle {
+                font-size: 1rem;
+            }
+            
+            .loading-spinner {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1 class="loading-title">🎄 Christmas Tic-Tac-Toe 🎅</h1>
+            <p class="loading-subtitle">Getting ready for the holidays...</p>
+            <div class="loading-spinner">❄️</div>
+        </div>
+    </div>
+
+    <!-- App Container -->
+    <div id="app"></div>
+
+    <!-- App Loading Script -->
+    <script>
+        // Remove loading screen when app is ready
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.body.classList.add('app-loaded');
+                // Remove loading screen after transition
+                setTimeout(() => {
+                    const loadingScreen = document.getElementById('loading-screen');
+                    if (loadingScreen) {
+                        loadingScreen.remove();
+                    }
+                }, 500);
+            }, 1000); // Show loading for at least 1 second for better UX
+        });
+        
+        // Error handling for app loading
+        window.addEventListener('error', (event) => {
+            console.error('App loading error:', event.error);
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                loadingScreen.innerHTML = `
+                    <div class="loading-content">
+                        <h1 class="loading-title">⚠️ Oops!</h1>
+                        <p class="loading-subtitle">Something went wrong loading the game.</p>
+                        <button onclick="location.reload()" style="
+                            padding: 1rem 2rem;
+                            background: #c41e3a;
+                            color: white;
+                            border: none;
+                            border-radius: 25px;
+                            font-size: 1rem;
+                            cursor: pointer;
+                            margin-top: 1rem;
+                        ">🔄 Try Again</button>
+                    </div>
+                `;
+            }
+        });
+    </script>
+
+    <!-- Module Script -->
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
